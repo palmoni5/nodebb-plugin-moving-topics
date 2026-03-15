@@ -39,7 +39,11 @@ Then rebuild and restart:
 
 ## Configuration
 
-No settings are required. The plugin respects existing category permissions.
+Admin control panel: `/admin/settings/post`
+
+- **Maximum posts to allow owner moves** (`movingTopicsMaxPosts`)
+  - Default: `5`
+  - Set to `0` for no limit
 
 ## Usage
 

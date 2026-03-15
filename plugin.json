@@ -8,7 +8,12 @@
     { "hook": "static:app.load", "method": "init" },
     { "hook": "filter:privileges.topics.get", "method": "filterTopicPrivileges" }
   ],
+  "acpScripts": [
+    "static/lib/admin.js"
+  ],
   "scripts": [
     "static/lib/client.js"
-  ]
+  ],
+  "languages": "languages",
+  "defaultLang": "en-GB"
 }

@@ -9,6 +9,14 @@ function getCore(path) {
 	return require.main.require(path);
 }
 
+function getMaxMovablePosts(meta) {
+	const value = parseInt(meta.config.movingTopicsMaxPosts, 10);
+	if (Number.isNaN(value)) {
+		return 5;
+	}
+	return value;
+}
+
 plugin.init = async function () {
 	if (patchedMove) {
 		return;
@@ -25,6 +33,7 @@ plugin.init = async function () {
 	const activitypubApi = getCore('./src/api/activitypub');
 	const activitypub = getCore('./src/activitypub');
 	const user = getCore('./src/user');
+	const meta = getCore('./src/meta');
 
 	originalMove = topicsApi.move;
 	
@@ -48,6 +57,7 @@ plugin.init = async function () {
 
 		const uids = await user.getUidsFromSet('users:online', 0, -1);
 		const cids = [targetCid];
+		const maxPosts = getMaxMovablePosts(meta);
 
 		await batch.processArray(tids, async (batchTids) => {
 			await Promise.all(batchTids.map(async (tid) => {
@@ -59,6 +69,7 @@ plugin.init = async function () {
 					'slug',
 					'deleted',
 					'locked',
+					'postcount',
 				]);
 
 				if (!topicData) {
@@ -66,7 +77,8 @@ plugin.init = async function () {
 				}
 
 				const isOwner = parseInt(topicData.uid, 10) === parseInt(caller.uid, 10);
-				if (!isOwner || topicData.locked || topicData.deleted) {
+				const exceedsMax = maxPosts > 0 && topicData.postcount > maxPosts;
+				if (!isOwner || topicData.locked || topicData.deleted || exceedsMax) {
 					throw new Error('[[error:no-privileges]]');
 				}
 
@@ -106,13 +118,22 @@ plugin.init = async function () {
 
 plugin.filterTopicPrivileges = async function (data) {
 	const topics = getCore('./src/topics');
-	const topicData = await topics.getTopicFields(data.tid, ['uid', 'locked', 'deleted']);
+	const meta = getCore('./src/meta');
+	const topicData = await topics.getTopicFields(data.tid, ['uid', 'locked', 'deleted', 'postcount']);
 	if (!topicData) {
 		return data;
 	}
 
+	const maxPosts = getMaxMovablePosts(meta);
+	const exceedsMax = maxPosts > 0 && topicData.postcount > maxPosts;
 	const isOwner = parseInt(topicData.uid, 10) === parseInt(data.uid, 10);
-	data.canMoveOwnTopic = !!(isOwner && !data.isAdminOrMod && !topicData.locked && !topicData.deleted);
+	data.canMoveOwnTopic = !!(
+		isOwner &&
+		!data.isAdminOrMod &&
+		!topicData.locked &&
+		!topicData.deleted &&
+		!exceedsMax
+	);
 
 	if (data.canMoveOwnTopic && !data.view_thread_tools) {
 		data.view_thread_tools = true;
