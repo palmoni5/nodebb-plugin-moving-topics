@@ -9,6 +9,7 @@ Allow topic owners to move their own topics between categories, without granting
 - Moves are blocked for **locked** or **deleted** topics.
 - Target categories are filtered by `topics:create` + `topics:read`.
 - Admins/moderators retain existing move permissions.
+- Optional limit by number of posts in the topic (default: 5).
 
 ## Requirements
 
