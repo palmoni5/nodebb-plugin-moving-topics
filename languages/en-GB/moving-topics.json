@@ -1,5 +1,6 @@
 {
   "admin.settings.title": "Topic move (owners)",
   "admin.settings.max-posts": "Maximum posts to allow owner moves",
-  "admin.settings.max-posts-help": "Set to 0 for no limit. Default: 5."
+  "admin.settings.max-posts-help": "Set to 0 for no limit. Default: 5.",
+  "error.max-posts": "Cannot move a topic with more than %1 posts"
 }

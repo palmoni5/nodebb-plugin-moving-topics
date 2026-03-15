@@ -78,7 +78,10 @@ plugin.init = async function () {
 
 				const isOwner = parseInt(topicData.uid, 10) === parseInt(caller.uid, 10);
 				const exceedsMax = maxPosts > 0 && topicData.postcount > maxPosts;
-				if (!isOwner || topicData.locked || topicData.deleted || exceedsMax) {
+				if (exceedsMax) {
+					throw new Error(`[[moving-topics:error.max-posts, ${maxPosts}]]`);
+				}
+				if (!isOwner || topicData.locked || topicData.deleted) {
 					throw new Error('[[error:no-privileges]]');
 				}
 

@@ -1,0 +1,6 @@
+{
+  "admin.settings.title": "העברת נושאים (בעלים)",
+  "admin.settings.max-posts": "מספר פוסטים מקסימלי להעברת נושא",
+  "admin.settings.max-posts-help": "קבעו 0 ללא הגבלה. ברירת מחדל: 5.",
+  "error.max-posts": "לא ניתן להעביר נושא שיש בו מעל %1 פוסטים"
+}
