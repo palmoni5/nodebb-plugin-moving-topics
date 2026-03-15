@@ -1,41 +1,50 @@
-# nodebb-plugin-moving-topics
+# NodeBB Plugin: Moving Topics for Owners
 
-Plugin for NodeBB that allows topic owners to move their own topics to another category.
+Allow topic owners to move their own topics between categories, without granting full moderation privileges.
 
-## What it does
+## Features
 
-- Adds a **Move** option in the thread tools for topic owners.
-- Allows owners to move **only their own topics**.
-- Prevents moves when the topic is **locked** or **deleted**.
-- Requires the owner to have `topics:create` and `topics:read` in the target category.
+- Adds **Move** to the thread tools for the topic owner.
+- Owners can move **only their own topics**.
+- Moves are blocked for **locked** or **deleted** topics.
+- Target categories are filtered by `topics:create` + `topics:read`.
+- Admins/moderators retain existing move permissions.
 
-## Install
+## Requirements
 
-This plugin was created directly in your NodeBB `node_modules` folder.
-To activate it:
+- NodeBB (compatible with current core API used by this plugin)
+
+## Installation
+
+### Via NodeBB CLI
 
 ```powershell
-Set-Location C:\Users\Public\NodeBB
-.\nodebb activate nodebb-plugin-moving-topics
-.\nodebb build
-.\nodebb restart
+cd /path/to/nodebb
+./nodebb install nodebb-plugin-moving-topics
 ```
 
-(If your CLI is `nodebb.bat`, replace accordingly.)
+### Manual
 
-## Notes
+```powershell
+cd /path/to/nodebb
+npm install nodebb-plugin-moving-topics
+```
 
-- The move dialog uses the same category selector, but the list is filtered by `topics:create`.
-- Admins/moderators keep their existing move privileges.
+Then rebuild and restart:
 
-## Files
+```powershell
+./nodebb build
+./nodebb restart
+```
 
-- `library.js` – server-side privilege and move logic
-- `static/lib/client.js` – client-side menu item + selector tweak
-- `plugin.json` – NodeBB hook registration
-- `package.json` – package metadata
+## Configuration
 
-## Troubleshooting
+No settings are required. The plugin respects existing category permissions.
 
-- If activation fails with “plugin not installed”, make sure the folder name is exactly `nodebb-plugin-moving-topics`.
-- After changes, always run `nodebb build` and restart.
+## Usage
+
+For topic owners, the **Move** option appears in the thread tools menu. Choose a destination category and confirm.
+
+## License
+
+MIT
