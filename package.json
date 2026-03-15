@@ -1,0 +1,7 @@
+{
+  "name": "nodebb-plugin-moving-topics",
+  "version": "1.0.0",
+  "description": "Allow topic owners to move their own topics.",
+  "main": "library.js",
+  "license": "MIT"
+}

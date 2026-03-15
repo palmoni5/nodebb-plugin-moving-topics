@@ -1,0 +1,14 @@
+{
+  "id": "nodebb-plugin-moving-topics",
+  "name": "Moving Topics for Owners",
+  "description": "Allow topic owners to move their own topics.",
+  "url": "https://github.com/palmoni5/nodebb-plugin-moving-topics",
+  "library": "library.js",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:privileges.topics.get", "method": "filterTopicPrivileges" }
+  ],
+  "scripts": [
+    "static/lib/client.js"
+  ]
+}
